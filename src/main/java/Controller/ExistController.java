@@ -1,8 +1,7 @@
 package Controller;
 
-import javax.xml.namespace.QName;
-import javax.xml.xquery.*;
 
+import javax.xml.xquery.*;
 import net.xqj.exist.ExistXQDataSource;
 
 public class ExistController {
@@ -14,6 +13,8 @@ public class ExistController {
             XQDataSource xqs = new ExistXQDataSource();
             xqs.setProperty("serverName", "localhost");
             xqs.setProperty("port", "8080");
+            xqs.setProperty("user","admin");
+            xqs.setProperty("password","admin");
             connection = xqs.getConnection("admin","admin");
             xqe = connection.createExpression();
 
@@ -89,19 +90,32 @@ public class ExistController {
                         "Diced");
     }
     public void insertSpice(String name, String description, String format, String country){
-        String xquery = "update insert " +
-                "<SPICE>" +
-                "    <SPICE_DESCRIPTION>"+description+"</SPICE_DESCRIPTION>" +
-                "    <SPICE_NAME>"+name+"</SPICE_NAME>" +
-                "    <SPICE_COUNTRY_ORIGIN>"+country+"</SPICE_COUNTRY_ORIGIN>" +
-                "    <SPICE_PRODUCT_STYLE>"+format+"</SPICE_PRODUCT_STYLE>" +
-                "</SPICE>" + " preceding doc('/db/apps/collections/foaf/Spices/spices.xml')" ;
         try {
+            xqe = connection.createExpression();
+            String xquery = "update insert \n" +
+                    "   <SPICE>" +
+                    "<SPICE_DESCRIPTION>"+description+"</SPICE_DESCRIPTION>" +
+                    "<SPICE_NAME>"+name+"</SPICE_NAME>" +
+                    "<SPICE_COUNTRY_ORIGIN>"+country+"</SPICE_COUNTRY_ORIGIN>" +
+                    "<SPICE_PRODUCT_STYLE>"+format+"</SPICE_PRODUCT_STYLE>" +
+                    "</SPICE>" + " into doc('/db/apps/collections/foaf/Spices/spices.xml')/SPICES" ;
+            System.out.println(xquery);
             xqe.executeCommand(xquery);
         } catch (XQException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
+    public void deleteSpice(String name){
+        try {
+            xqe = connection.createExpression();
+            String xquery = "update delete doc('/db/apps/collections/foaf/Spices/spices.xml')/SPICES/SPICE[SPICE_NAME='"+name+"']";
+            System.out.println(xquery);
+            xqe.executeCommand(xquery);
+        } catch (XQException e) {
+            e.printStackTrace();
+        }
+    }
+    public void updateSpice(){
 
-
+    }
 }

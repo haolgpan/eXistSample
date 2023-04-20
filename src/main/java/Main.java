@@ -1,4 +1,5 @@
 import Controller.ExistController;
+import org.xmldb.api.base.XMLDBException;
 import view.Menu;
 
 import javax.xml.xquery.XQException;
@@ -7,7 +8,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws XQException {
+    public static void main(String[] args) throws Exception {
         ExistController ec = new ExistController();
         Scanner sc = new Scanner(System.in);
         String userInput, name, desc, format, country;
@@ -51,6 +52,9 @@ public class Main {
                     ec.insertSpice(name,desc,format,country);
                     break;
                 case 6:
+                    System.out.println("Introdueix el nom de la espècia que es vol esborrar.");
+                    name = sc.nextLine();
+                    ec.deleteSpice(name);
                     break;
                 case 7:
                     break;
