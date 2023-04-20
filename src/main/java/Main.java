@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) throws XQException {
         ExistController ec = new ExistController();
         Scanner sc = new Scanner(System.in);
-        String userInput;
+        String userInput, name, desc, format, country;
         Menu menu = new Menu();
         int opcio;
         opcio = menu.mainMenu();
@@ -40,6 +40,15 @@ public class Main {
                     ec.queryByFormat(userInput);
                     break;
                 case 5:
+                    System.out.println("Introdueix nom de la espàcia");
+                    name = sc.nextLine();
+                    System.out.println("Introdueix una breu descripció");
+                    desc = sc.nextLine();
+                    System.out.println("Introdueix el format de la espècia");
+                    format = sc.nextLine();
+                    System.out.println("Introdueix el pías d'orígen");
+                    country = sc.nextLine();
+                    ec.insertSpice(name,desc,format,country);
                     break;
                 case 6:
                     break;

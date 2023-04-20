@@ -28,7 +28,7 @@ public class Menu {
             System.out.println("2. Mostrar espècia per països.");
             System.out.println("3. Mostrar espècia per cuina.");
             System.out.println("4. Mostrar espècia per format.");
-            System.out.println("5. Mostra totes les espècias.");
+            System.out.println("5. Insertar nova espècia.");
             System.out.println("6. Mostra totes els països.");
             System.out.println("7. Mostra totes els productes.");
             System.out.println("8. Modificar el nom d'un paìs per id.");

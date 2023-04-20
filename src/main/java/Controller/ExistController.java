@@ -1,15 +1,13 @@
 package Controller;
 
-import javax.xml.xquery.XQConnection;
-import javax.xml.xquery.XQDataSource;
-import javax.xml.xquery.XQException;
-import javax.xml.xquery.XQExpression;
-import javax.xml.xquery.XQResultSequence;
+import javax.xml.namespace.QName;
+import javax.xml.xquery.*;
 
 import net.xqj.exist.ExistXQDataSource;
 
 public class ExistController {
     private XQConnection connection;
+    private XQExpression xqe;
 
     public ExistController() {
         try {
@@ -17,11 +15,13 @@ public class ExistController {
             xqs.setProperty("serverName", "localhost");
             xqs.setProperty("port", "8080");
             connection = xqs.getConnection("admin","admin");
+            xqe = connection.createExpression();
 
         } catch (XQException e) {
             throw new RuntimeException(e);
         }
     }
+
 
     public XQResultSequence executeQuery(String query) {
         try {
@@ -88,5 +88,20 @@ public class ExistController {
                         "Greek-cut\n" +
                         "Diced");
     }
+    public void insertSpice(String name, String description, String format, String country){
+        String xquery = "update insert " +
+                "<SPICE>" +
+                "    <SPICE_DESCRIPTION>"+description+"</SPICE_DESCRIPTION>" +
+                "    <SPICE_NAME>"+name+"</SPICE_NAME>" +
+                "    <SPICE_COUNTRY_ORIGIN>"+country+"</SPICE_COUNTRY_ORIGIN>" +
+                "    <SPICE_PRODUCT_STYLE>"+format+"</SPICE_PRODUCT_STYLE>" +
+                "</SPICE>" + " preceding doc('/db/apps/collections/foaf/Spices/spices.xml')" ;
+        try {
+            xqe.executeCommand(xquery);
+        } catch (XQException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }
