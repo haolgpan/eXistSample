@@ -115,7 +115,14 @@ public class ExistController {
             e.printStackTrace();
         }
     }
-    public void updateSpice(){
-
+    public void updateSpice(String name, String newName) {
+        try {
+            xqe = connection.createExpression();
+            String xquery = "update value doc('/db/apps/collections/foaf/Spices/spices.xml')/SPICES/SPICE[SPICE_NAME='"+name+"']/SPICE_NAME with '"+newName+"'";
+            System.out.println(xquery);
+            xqe.executeCommand(xquery);
+        } catch (XQException e) {
+            e.printStackTrace();
+        }
     }
 }

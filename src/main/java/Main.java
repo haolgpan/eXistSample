@@ -1,9 +1,5 @@
 import Controller.ExistController;
-import org.xmldb.api.base.XMLDBException;
-import view.Menu;
-
-import javax.xml.xquery.XQException;
-import javax.xml.xquery.XQResultSequence;
+import View.Menu;
 import java.util.Scanner;
 
 public class Main {
@@ -11,7 +7,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         ExistController ec = new ExistController();
         Scanner sc = new Scanner(System.in);
-        String userInput, name, desc, format, country;
+        String userInput, name, desc, format, country, newName;
         Menu menu = new Menu();
         int opcio;
         opcio = menu.mainMenu();
@@ -57,6 +53,11 @@ public class Main {
                     ec.deleteSpice(name);
                     break;
                 case 7:
+                    System.out.println("Introdueix el nom de la espècia a canviar.");
+                    name = sc.nextLine();
+                    System.out.println("Introdueix el nou nom a posar.");
+                    newName = sc.nextLine();
+                    ec.updateSpice(name,newName);
                     break;
                 case 8:
                     break;
