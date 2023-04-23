@@ -63,31 +63,32 @@ public class ExistController {
     }
     public void printFormat(){
         System.out.println(
-                "Powder\n" +
-                        "De-Stemmed\n" +
-                        "Crushed\n" +
-                        "Whole\n" +
-                        "Liquid\n" +
-                        "Seeds/Berries\n" +
-                        "Loose Leaf\n" +
-                        "Null\n" +
-                        "Granulated\n" +
-                        "Blend-Crushed\n" +
-                        "Coarse Cut\n" +
-                        "Chips\n" +
-                        "Cross-cut\n" +
-                        "Sliced\n" +
-                        "Blend\n" +
-                        "Flakes\n" +
-                        "Shredded\n" +
-                        "Desiccated\n" +
-                        "Cracked\n" +
-                        "Minced\n" +
-                        "Crushed-Seeds/Berries\n" +
-                        "Whole-Seeds/Berries\n" +
-                        "Threads\n" +
-                        "Greek-cut\n" +
-                        "Diced");
+                """
+                        Powder
+                        De-Stemmed
+                        Crushed
+                        Whole
+                        Liquid
+                        Seeds/Berries
+                        Loose Leaf
+                        Null
+                        Granulated
+                        Blend-Crushed
+                        Coarse Cut
+                        Chips
+                        Cross-cut
+                        Sliced
+                        Blend
+                        Flakes
+                        Shredded
+                        Desiccated
+                        Cracked
+                        Minced
+                        Crushed-Seeds/Berries
+                        Whole-Seeds/Berries
+                        Threads
+                        Greek-cut
+                        Diced""");
     }
     public void insertSpice(String name, String description, String format, String country){
         try {
@@ -156,9 +157,6 @@ public class ExistController {
             e.printStackTrace();
         }
     }
-
-
-
 
 //    public class XmlUploadExample {
 //        public static void main(String[] args) {

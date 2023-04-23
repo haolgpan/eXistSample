@@ -14,7 +14,6 @@ public class Menu {
     /**
      * Menu visual per el menu principal, aquí permet que l'usuari esculli de les diferents opcions que permet realitzar
      * a la base de dades.
-     * @return
      */
 
     public int mainMenu() {
