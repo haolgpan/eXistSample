@@ -4,6 +4,10 @@ package Controller;
 import javax.xml.xquery.*;
 import net.xqj.exist.ExistXQDataSource;
 
+/**
+ * Crea una nova connexió a la base de dades Exist amb les credencials d'usuari i contrasenya proporcionades
+ * a través de les propietats del sistema.
+ */
 public class ExistController {
     private final XQConnection connection;
     private XQExpression xqe;
@@ -23,7 +27,11 @@ public class ExistController {
         }
     }
 
-
+    /**
+     * Executa una consulta XQuery donada i retorna una seqüència de resultats.
+     * @param query Consulta XQuery a executar.
+     * @return Seqüència de resultats obtinguda de l'execució de la consulta XQuery.
+     */
     public XQResultSequence executeQuery(String query) {
         try {
             XQExpression xqe = connection.createExpression();
@@ -33,7 +41,10 @@ public class ExistController {
             throw new RuntimeException(e);
         }
     }
-
+    /**
+     * Imprimeix la seqüència de resultats donada per paràmetre per la sortida estàndard.
+     * @param xqrs Seqüència de resultats a imprimir.
+     */
     public void printResultSequence(XQResultSequence xqrs) {
         try {
             while (xqrs.next()) {
@@ -45,14 +56,25 @@ public class ExistController {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * Executa una consulta XQuery per obtenir els noms de totes les espècies de la base de dades.
+     */
     public void queryAllSpiceName(){
         XQResultSequence xqrs = executeQuery("for $SPICE in doc('/db/apps/collections/foaf/Spices/spices.xml')/SPICES/SPICE return $SPICE/SPICE_NAME");
         printResultSequence(xqrs);
     }
+    /**
+     * Executa una consulta XQuery per obtenir els noms de les espècies d'un país determinat.
+     * @param country País a buscar.
+     */
     public void queryByCountry(String country){
         XQResultSequence xqrs = executeQuery( "for $SPICE in doc('/db/apps/collections/foaf/Spices/spices.xml')/SPICES/SPICE where contains ($SPICE/SPICE_COUNTRY_ORIGIN,'" + country +"')" + " return $SPICE/SPICE_NAME");
         printResultSequence(xqrs);
     }
+    /**
+     * Executa una consulta XQuery per obtenir els noms de les espècies d'una cuina determinada.
+     * @param cuisine Cuina a buscar.
+     */
     public void queryByCuisine(String cuisine){
         XQResultSequence xqrs = executeQuery( "for $SPICE in doc('/db/apps/collections/foaf/Spices/spices.xml')/SPICES/SPICE where contains ($SPICE/SPICE_CUISINE,'" + cuisine +"')" + " return $SPICE/SPICE_NAME");
         printResultSequence(xqrs);
@@ -61,6 +83,9 @@ public class ExistController {
         XQResultSequence xqrs = executeQuery( "for $SPICE in doc('/db/apps/collections/foaf/Spices/spices.xml')/SPICES/SPICE where contains ($SPICE/SPICE_PRODUCT_STYLE,'" + format +"')" + " return $SPICE/SPICE_NAME");
         printResultSequence(xqrs);
     }
+    /**
+     * Imprimeix una llista de formats de productes d'espècies.
+     */
     public void printFormat(){
         System.out.println(
                 """
@@ -90,6 +115,13 @@ public class ExistController {
                         Greek-cut
                         Diced""");
     }
+    /**
+     * Insereix una nova espècia amb les dades especificades al document XML.
+     * @param name Nom de l'espècia.
+     * @param description Descripció de l'espècia.
+     * @param format Format del producte d'espècia.
+     * @param country País d'origen de l'espècia.
+     */
     public void insertSpice(String name, String description, String format, String country){
         try {
             xqe = connection.createExpression();
@@ -105,6 +137,10 @@ public class ExistController {
             e.printStackTrace();
         }
     }
+    /**
+     * Elimina una espècia pel seu nom del document XML.
+     * @param name Nom de l'espècia a eliminar.
+     */
     public void deleteSpiceByName(String name){
         try {
             xqe = connection.createExpression();
@@ -115,6 +151,11 @@ public class ExistController {
             e.printStackTrace();
         }
     }
+    /**
+     * Actualitza el nom d'una espècia pel seu nom actual pel nou nom especificat.
+     * @param name Nom actual de l'espècia a actualitzar.
+     * @param newName Nou nom per a l'espècia.
+     */
     public void updateSpiceByName(String name, String newName) {
         try {
             xqe = connection.createExpression();
@@ -125,6 +166,13 @@ public class ExistController {
             e.printStackTrace();
         }
     }
+    /**
+     * Actualitza un camp determinat per un nom de espècia concret amb un nou valor.
+     *
+     * @param name Nom de l'espècia a actualitzar.
+     * @param field Nom del camp que es vol actualitzar.
+     * @param newValue Nou valor que s'assignarà al camp.
+     */
     public void updateSpiceAllField(String name, String field, String newValue) {
         try {
             xqe = connection.createExpression();
@@ -136,6 +184,11 @@ public class ExistController {
             e.printStackTrace();
         }
     }
+    /**
+     * Elimina totes les espècies que tinguin un determinat país d'origen.
+     *
+     * @param country País d'origen a buscar per eliminar les espècies relacionades.
+     */
     public void deleteSpiceByCountry(String country) {
         try {
             xqe = connection.createExpression();
@@ -146,7 +199,11 @@ public class ExistController {
             e.printStackTrace();
         }
     }
-
+    /**
+     * Elimina totes les espècies que tinguin un determinat estil de producte.
+     *
+     * @param productStyle Estil de producte a buscar per eliminar les espècies relacionades.
+     */
     public void deleteSpiceByProductStyle(String productStyle) {
         try {
             xqe = connection.createExpression();
@@ -157,49 +214,5 @@ public class ExistController {
             e.printStackTrace();
         }
     }
-
-//    public class XmlUploadExample {
-//        public static void main(String[] args) {
-//            String driver = "org.exist.xmldb.DatabaseImpl";
-//            String uri = "xmldb:exist://localhost:8080/exist/xmlrpc";
-//            String collectionPath = "/db/apps/collections/foaf/Spices";
-//            String fileName = "spices.xml";
-//
-//            try {
-//                // initialize database driver
-//                Class<?> cl = Class.forName(driver);
-//                Database database = (Database) cl.newInstance();
-//                DatabaseManager.registerDatabase(database);
-//
-//                // get collection
-//                Collection collection = DatabaseManager.getCollection(uri + collectionPath);
-//                if (collection == null) {
-//                    System.out.println("Collection does not exist!");
-//                    return;
-//                }
-//
-//                // create XML resource from file
-//                File file = new File(fileName);
-//                if (!file.exists()) {
-//                    System.out.println("File does not exist!");
-//                    return;
-//                }
-//                FileInputStream inputStream = new FileInputStream(file);
-//                XMLResource resource = (XMLResource) collection.createResource(file.getName(), "XMLResource");
-//                resource.setContent(inputStream);
-//
-//                // store resource in collection
-//                collection.storeResource(resource);
-//                System.out.println("File uploaded successfully!");
-//
-//                // close collection
-//                collection.close();
-//            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | XMLDBException |
-//                     FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
 
 }

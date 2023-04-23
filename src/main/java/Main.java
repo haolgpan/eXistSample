@@ -3,6 +3,11 @@ import View.Menu;
 import java.util.Scanner;
 
 public class Main {
+    /**
+     * Classe main on arrenca la aplicació y realitza les funciones que escull un usuari.
+     * @param args
+     * @throws Exception
+     */
 
     public static void main(String[] args) throws Exception {
         ExistController ec = new ExistController();
