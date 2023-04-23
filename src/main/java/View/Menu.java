@@ -29,17 +29,11 @@ public class Menu {
             System.out.println("3. Mostrar espècia per cuina.");
             System.out.println("4. Mostrar espècia per format.");
             System.out.println("5. Insertar nova espècia.");
-            System.out.println("6. Mostra totes els països.");
-            System.out.println("7. Mostra totes els productes.");
-            System.out.println("8. Modificar el nom d'un paìs per id.");
-            System.out.println("9. Modificar el format d'un producte per id.");
-            System.out.println("10. Eliminar per id un país.");
-            System.out.println("11. Eliminar per id un format.");
-            System.out.println("12. Filtrar espècias per països.");
-            System.out.println("13. Filtrar espeècias per format.");
-            System.out.println("14. Eliminar espècias per país.");
-            System.out.println("15. Eliminar espècias per format.");
-
+            System.out.println("6. Esborrar per nom.");
+            System.out.println("7. Modifica el nom d'una espècia existent.");
+            System.out.println("8. Eliminar espècia per països.");
+            System.out.println("9. Eliminar espècia per format.");
+            System.out.println("10. Modificar per nom qualsevol camp d'una espècia.");
             System.out.println("0. Sortir. ");
 
             System.out.println("Esculli opció: ");
@@ -49,7 +43,7 @@ public class Menu {
                 System.out.println("valor no vàlid");
                 e.printStackTrace();
             }
-        } while (option < 0 && option > 15);
+        } while (option < 0 && option > 10);
 
         return option;
     }

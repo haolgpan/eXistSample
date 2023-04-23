@@ -5,7 +5,7 @@ import javax.xml.xquery.*;
 import net.xqj.exist.ExistXQDataSource;
 
 public class ExistController {
-    private XQConnection connection;
+    private final XQConnection connection;
     private XQExpression xqe;
 
     public ExistController() {
@@ -99,30 +99,109 @@ public class ExistController {
                     "<SPICE_COUNTRY_ORIGIN>"+country+"</SPICE_COUNTRY_ORIGIN>" +
                     "<SPICE_PRODUCT_STYLE>"+format+"</SPICE_PRODUCT_STYLE>" +
                     "</SPICE>" + " into doc('/db/apps/collections/foaf/Spices/spices.xml')/SPICES" ;
-            System.out.println(xquery);
             xqe.executeCommand(xquery);
         } catch (XQException e) {
             e.printStackTrace();
         }
     }
-    public void deleteSpice(String name){
+    public void deleteSpiceByName(String name){
         try {
             xqe = connection.createExpression();
-            String xquery = "update delete doc('/db/apps/collections/foaf/Spices/spices.xml')/SPICES/SPICE[SPICE_NAME='"+name+"']";
-            System.out.println(xquery);
+            String xquery = "update delete doc('/db/apps/collections/foaf/Spices/spices.xml')" +
+                    "/SPICES/SPICE[SPICE_NAME='"+name+"']";
             xqe.executeCommand(xquery);
         } catch (XQException e) {
             e.printStackTrace();
         }
     }
-    public void updateSpice(String name, String newName) {
+    public void updateSpiceByName(String name, String newName) {
         try {
             xqe = connection.createExpression();
-            String xquery = "update value doc('/db/apps/collections/foaf/Spices/spices.xml')/SPICES/SPICE[SPICE_NAME='"+name+"']/SPICE_NAME with '"+newName+"'";
+            String xquery = "update value doc('/db/apps/collections/foaf/Spices/spices.xml')" +
+                    "/SPICES/SPICE[SPICE_NAME='"+name+"']/SPICE_NAME with '"+newName+"'";
+            xqe.executeCommand(xquery);
+        } catch (XQException e) {
+            e.printStackTrace();
+        }
+    }
+    public void updateSpiceAllField(String name, String field, String newValue) {
+        try {
+            xqe = connection.createExpression();
+            String xquery = "update value doc('/db/apps/collections/foaf/Spices/spices.xml')" +
+                    "/SPICES/SPICE[SPICE_NAME='"+name+"']/"+ field + " with '"+newValue+"'";
             System.out.println(xquery);
             xqe.executeCommand(xquery);
         } catch (XQException e) {
             e.printStackTrace();
         }
     }
+    public void deleteSpiceByCountry(String country) {
+        try {
+            xqe = connection.createExpression();
+            String xquery = "update delete doc('/db/apps/collections/foaf/Spices/spices.xml')/SPICES/SPICE[SPICE_COUNTRY_ORIGIN='" + country + "']";
+            System.out.println(xquery);
+            xqe.executeCommand(xquery);
+        } catch (XQException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteSpiceByProductStyle(String productStyle) {
+        try {
+            xqe = connection.createExpression();
+            String xquery = "update delete doc('/db/apps/collections/foaf/Spices/spices.xml')/SPICES/SPICE[SPICE_PRODUCT_STYLE='" + productStyle + "']";
+            System.out.println(xquery);
+            xqe.executeCommand(xquery);
+        } catch (XQException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+//    public class XmlUploadExample {
+//        public static void main(String[] args) {
+//            String driver = "org.exist.xmldb.DatabaseImpl";
+//            String uri = "xmldb:exist://localhost:8080/exist/xmlrpc";
+//            String collectionPath = "/db/apps/collections/foaf/Spices";
+//            String fileName = "spices.xml";
+//
+//            try {
+//                // initialize database driver
+//                Class<?> cl = Class.forName(driver);
+//                Database database = (Database) cl.newInstance();
+//                DatabaseManager.registerDatabase(database);
+//
+//                // get collection
+//                Collection collection = DatabaseManager.getCollection(uri + collectionPath);
+//                if (collection == null) {
+//                    System.out.println("Collection does not exist!");
+//                    return;
+//                }
+//
+//                // create XML resource from file
+//                File file = new File(fileName);
+//                if (!file.exists()) {
+//                    System.out.println("File does not exist!");
+//                    return;
+//                }
+//                FileInputStream inputStream = new FileInputStream(file);
+//                XMLResource resource = (XMLResource) collection.createResource(file.getName(), "XMLResource");
+//                resource.setContent(inputStream);
+//
+//                // store resource in collection
+//                collection.storeResource(resource);
+//                System.out.println("File uploaded successfully!");
+//
+//                // close collection
+//                collection.close();
+//            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | XMLDBException |
+//                     FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+
+
 }

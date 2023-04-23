@@ -7,11 +7,11 @@ public class Main {
     public static void main(String[] args) throws Exception {
         ExistController ec = new ExistController();
         Scanner sc = new Scanner(System.in);
-        String userInput, name, desc, format, country, newName;
+        String userInput, name, desc, format, country, newName, field;
         Menu menu = new Menu();
-        int opcio;
+        int opcio, userOp;
         opcio = menu.mainMenu();
-        while (opcio != 0) {
+        while (opcio >= 0) {
             switch (opcio) {
                 case 0:
                     System.out.println("Adeu!!");
@@ -50,32 +50,33 @@ public class Main {
                 case 6:
                     System.out.println("Introdueix el nom de la espècia que es vol esborrar.");
                     name = sc.nextLine();
-                    ec.deleteSpice(name);
+                    ec.deleteSpiceByName(name);
                     break;
                 case 7:
                     System.out.println("Introdueix el nom de la espècia a canviar.");
                     name = sc.nextLine();
                     System.out.println("Introdueix el nou nom a posar.");
                     newName = sc.nextLine();
-                    ec.updateSpice(name,newName);
+                    ec.updateSpiceByName(name,newName);
                     break;
                 case 8:
+                    System.out.println("Introdueix el nom del país de les especias a esborrar");
+                    newName = sc.nextLine();
+                    ec.deleteSpiceByCountry(newName);
                     break;
                 case 9:
+                    System.out.println("Introdueix el nom del format de les especias a esborrar");
+                    newName = sc.nextLine();
+                    ec.deleteSpiceByProductStyle(newName);
                     break;
                 case 10:
-                    break;
-                case 11:
-                    break;
-                case 12:
-                    break;
-                case 13:
-                    break;
-                case 14:
-                    break;
-                case 15:
-                    break;
-                case 16:
+                    System.out.println("Introdueix el nom de la espeècia a modificar:");
+                    name = sc.nextLine();
+                    System.out.println("Introdueix el camp que es desitja canviar:");
+                    field = sc.nextLine();
+                    System.out.println("Introdueix el nou valor per el camp seleccionat");
+                    newName = sc.nextLine();
+                    ec.updateSpiceAllField(name,field,newName);
                     break;
                 default:
                     break;
